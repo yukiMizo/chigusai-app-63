@@ -6,16 +6,12 @@ class NotificationSetup {
     final FirebaseMessaging fbm = FirebaseMessaging.instance;
     final FlutterLocalNotificationsPlugin flnp = FlutterLocalNotificationsPlugin();
 
+    //トークン取得(テスト用)
+    final token = await fbm.getToken();
+    print("token: $token");
+
     //for ios
-    fbm.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+    fbm.requestPermission(alert: true, announcement: false, badge: true, carPlay: false, criticalAlert: false, provisional: false, sound: true);
     //foreground
     //ios
     fbm.setForegroundNotificationPresentationOptions(
@@ -40,12 +36,7 @@ class NotificationSetup {
         notification.title,
         notification.body,
         const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'channel_id',
-            'channel_name',
-            importance: Importance.high,
-            priority: Priority.high,
-          ),
+          android: AndroidNotificationDetails('channel_id', 'channel_name', importance: Importance.high, priority: Priority.high),
         ),
       );
     });
