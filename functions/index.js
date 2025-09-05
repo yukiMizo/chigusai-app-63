@@ -12,14 +12,18 @@ exports.sendNotification = onDocumentCreated(
       const newValue = snap.data();
 
       try {
-        await admin.messaging().sendToTopic("notification", {
+        const message = {
           notification: {
             title: newValue.title,
             body: newValue.content,
           },
-        });
+          topic: "notification", // ← トピック指定をここで行う
+        };
+
+        await admin.messaging().send(message);
         console.log("Notification sent:", newValue);
       } catch (error) {
         console.error("Error sending notification:", error);
       }
-    });
+    },
+);
