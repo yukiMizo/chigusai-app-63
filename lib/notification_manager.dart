@@ -44,7 +44,7 @@ class NotificationManager {
   //ローカル通知の予約
   static Future<void> registerLocNotification({required String id, required int day, required int hour, required int minute, required String title, required String message}) async {
     //日時指定
-    var date = tz.TZDateTime(tz.local, 2023, 9, day, hour, minute);
+    var date = tz.TZDateTime(tz.local, 2025, 9, day, hour, minute);
     //var date = tz.TZDateTime(tz.local, 2023, 8, 31, hour, minute);
     //var date = tz.TZDateTime(tz.local, 2023, 8, 31, 1, 51);
     //通知設定

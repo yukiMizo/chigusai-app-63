@@ -1,25 +1,25 @@
-const functions = require("firebase-functions");
-
+const {onDocumentCreated} = require("firebase-functions/v2/firestore");
 const admin = require("firebase-admin");
+
 admin.initializeApp();
 
-// // Create and deploy your first functions
-// // https://firebase.google.com/docs/functions/get-started
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+exports.sendNotification = onDocumentCreated(
+    "notification/{docId}",
+    async (event) => {
+      const snap = event.data;
+      if (!snap) return;
 
-exports.sendNotification = functions.firestore.
-  document("notification/{docId}").
-  onCreate((snap, context) => {
-    const newValue = snap.data();
-    admin.messaging().sendToTopic("notification", {
-      notification: {
-        title: newValue["title"],
-        body: newValue["content"],
-      },
+      const newValue = snap.data();
+
+      try {
+        await admin.messaging().sendToTopic("notification", {
+          notification: {
+            title: newValue.title,
+            body: newValue.content,
+          },
+        });
+        console.log("Notification sent:", newValue);
+      } catch (error) {
+        console.error("Error sending notification:", error);
+      }
     });
-    return 0;
-  });

@@ -42,6 +42,8 @@
     {
       "source": "functions",
       "codebase": "default",
+      "runtime": "nodejs20",
+      "gen2": true,
       "ignore": [
         "node_modules",
         ".git",
